@@ -26,3 +26,40 @@ fun pickRandomWord (words: MutableList<String>) : String {
     words.removeAt(index)
     return word
 }
+
+fun obtainGuess(attempt: Int): String {
+    while (true) {
+        print("Attempt $attempt: ")
+        val input = readLine()?.trim()?.lowercase() ?: ""
+        if (isVaild(input)) {
+            return input
+        }else {
+            println("Invalid input! Please enter a 5-letter word. ")
+        }
+    }
+}
+
+fun evaluateGuess(guess: String, target: String): List<Int> {
+    require(guess.length == 5 && target.length == 5) 
+    val result = mutableListOf<Int>()
+    for(i in guess.indices) {
+        if (guess[i] == target[i]) {
+            result.add(1)
+        }else {
+            result.add(0)
+        }
+    }
+    return result
+}
+
+fun displayGuess(guess: String, matches: List<Int>) {
+    require(guess.length == matches.size) { "Guess and matches must have the same length." }
+    val display = guess.mapIndexed { Index, char ->
+        if (matches[index] == 1){
+            char
+        }else{
+            '?'
+        }
+    }.joinToString(" ")
+    println(display)
+}
