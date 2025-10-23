@@ -5,10 +5,10 @@ fun main() {
     println("=== Welcome to the Worlde Game ===")
     print(" Enter the filename containing 5-letter words (e.g., words.txt): ")
     val filename = readLine()?.trim() ?: return
-    val words = readWorldList(filename)
+    val words = readWordList(filename)
 
     if(words.isEmpty()) {
-        println("No vaild 5-letters words found in the file" )
+        println("No valid 5-letters words found in the file" )
         return
     }
     
