@@ -2,16 +2,16 @@
 import java.io.File
 import kotlin.random.Random
 
-fun isVaild(word: String): Boolean {
+fun isValid(word: String): Boolean {
     val trimmed = word.trim()
     return word.length == 5 && trimmed.all {it.isLetter()}
 }
 
-fun readWorldList (filename: String): MutableList<String> {
+fun readWordList (filename: String): MutableList<String> {
     val words = mutableListOf<String>()
     File(filename).forEachLine { line ->
         val word = line.trim().lowercase()
-        if (isVaild(word)){
+        if (isValid(word)){
             words.add(word)
         }
     }
