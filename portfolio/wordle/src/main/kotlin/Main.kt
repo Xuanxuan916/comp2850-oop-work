@@ -15,15 +15,15 @@ fun main() {
     val target = pickRandomWord(words)
 
     for(i in 1..6) {
-        val guess = getGuess(i)
-        val result = checkGuess(guess, target)
-        showGuess(guess, result)
+        val guess = obtainGuess(i)
+        val result = evaluateGuess(guess, target)
+        displayGuess(guess, result)
 
         if (guess == target) {
             println(" You are correct! The answer is ${target.uppercase()}")
             return 
         }
-    }else()
+    }
     println(" You ran out of tries. The correct answer is ${target.uppercase()}")
 
 }

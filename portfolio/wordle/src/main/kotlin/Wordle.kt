@@ -2,15 +2,15 @@
 import java.io.File
 import kotlin.random.Random
 
-fun isVaild(world: String): Boolean {
+fun isVaild(word: String): Boolean {
     val trimmed = word.trim()
-    return world.length == 5 && trimmed.all {it.isLetter()}
+    return word.length == 5 && trimmed.all {it.isLetter()}
 }
 
 fun readWorldList (filename: String): MutableList<String> {
-    val words = mutableList<String>()
+    val words = mutableListOf<String>()
     File(filename).forEachLine { line ->
-        val word = line.trim().lowercase().
+        val word = line.trim().lowercase()
         if (isVaild(word)){
             words.add(word)
         }
@@ -31,7 +31,7 @@ fun obtainGuess(attempt: Int): String {
     while (true) {
         print("Attempt $attempt: ")
         val input = readLine()?.trim()?.lowercase() ?: ""
-        if (isVaild(input)) {
+        if (isValid(input)) {
             return input
         }else {
             println("Invalid input! Please enter a 5-letter word. ")
@@ -54,10 +54,10 @@ fun evaluateGuess(guess: String, target: String): List<Int> {
 
 fun displayGuess(guess: String, matches: List<Int>) {
     require(guess.length == matches.size) { "Guess and matches must have the same length." }
-    val display = guess.mapIndexed { Index, char ->
+    val display = guess.mapIndexed { index, char ->
         if (matches[index] == 1){
             char
-        }else{
+        } else{
             '?'
         }
     }.joinToString(" ")

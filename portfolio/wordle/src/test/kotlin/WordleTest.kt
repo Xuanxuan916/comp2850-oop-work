@@ -12,11 +12,11 @@ import io.kotest.matchers.shouldBe
 class WordleTest : StringSpec({
     
     "check if isVaild() works correctly" {
-        println("Testing isVaild()")
-        isVaild("apple") shouldBe true 
-        isVaild("abc") shouldBe false
-        isVaild("apple1") shouldBe false 
-        isVaild("hello") shouldBe true 
+        println("Testing isValid()")
+        isValid("apple") shouldBe true 
+        isValid("abc") shouldBe false
+        isValid("apple1") shouldBe false 
+        isValid("hello") shouldBe true 
     }
 
     "check if checkGuess() works" {
