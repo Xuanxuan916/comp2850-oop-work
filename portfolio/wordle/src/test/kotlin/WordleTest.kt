@@ -20,7 +20,7 @@ class WordleTest : StringSpec({
     }
 
     "check if checkGuess() works" {
-        println("Testing checkGuess()...")
+        println("Testing checkGuess()")
         val target = "table"
         val guess = "tales"
         val result = checkGuess(guess, target)
