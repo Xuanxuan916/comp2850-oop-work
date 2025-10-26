@@ -2,83 +2,150 @@ import java.io.File
 import kotlin.random.Random
 
 private const val MAX_ATTEMPTS = 6
-private const val WORDS_FILE = "words.txt"
 
 fun isValid(word: String): Boolean {
-    val trimmed = word.trim()
-    return trimmed.length == 5 && trimmed.all { it.isLetter() }
+    var noSpaces = ""
+    for (letter in word) {
+        if (letter != ' ') {
+            noSpaces = noSpaces + letter
+        }
+    }
+
+    if (noSpaces.length != 5) {
+        return false
+    }
+
+    for (letter in noSpaces) {
+        if (!letter.isLetter()) {
+            return false
+        }
+    }
+
+    return true
 }
+
 
 fun readWordList(filename: String): MutableList<String> {
     val words = mutableListOf<String>()
-    File(filename).forEachLine { line ->
-        val word = line.trim().lowercase()
+    val file = File(filename)
+
+    if (!file.exists()) {
+        println("File not found: $filename")
+        return words
+    }
+
+    val lines = file.readLines()
+    for (line in lines) {
+        var word = ""
+        for (letter in line) {
+            if (letter == ' ') {
+            } else if (letter == '\n') {
+            } else if (letter == '\r') {
+            } else if (letter == '\t') {
+            } else {
+                word = word + letter
+            }
+        }
+
+        word = word.lowercase()
+
         if (isValid(word)) {
             words.add(word)
         }
     }
+
     return words
 }
 
 fun pickRandomWord(words: MutableList<String>): String {
-    require(words.isNotEmpty()) { "The list is empty, no operation performed." }
-    println("The list contains ${words.size} words.")
+    if (words.isEmpty()) {
+        println("The word list is empty.")
+        return ""
+    }
+
     val index = Random.nextInt(words.size)
     val word = words[index]
-    words.removeAt(index)
+    println("There are ${words.size} words in total. A random one is chosen.")
     return word
 }
 
 fun obtainGuess(attempt: Int): String {
     while (true) {
-        print("Attempt $attempt: ")
-        val input = readLine()?.trim()?.lowercase() ?: ""
-        if (isValid(input)) {
-            return input
+        print("Attempt $attempt: Please enter a 5-letter word: ")
+        val inputLine = readLine()
+        var guess = ""
+
+        if (inputLine != null) {
+            for (letter in inputLine) {
+                if (letter == ' ') {
+                } else if (letter == '\n') {
+                } else if (letter == '\r') {
+                } else if (letter == '\t') {
+                } else {
+                    guess = guess + letter
+                }
+            }
+            guess = guess.lowercase()
+        }
+
+        if (isValid(guess)) {
+            return guess
         } else {
-            println("Invalid input! Please enter a 5-letter word.")
+            println("Invalid input! Please enter exactly 5 English letters.")
         }
     }
 }
 
+
 fun evaluateGuess(guess: String, target: String): List<Int> {
-    require(guess.length == 5 && target.length == 5)
     val result = mutableListOf<Int>()
-    for (i in guess.indices) {
+
+    for (i in 0 until 5) {
         if (guess[i] == target[i]) {
-            result.add(1)
+            result.add(1)  
         } else {
-            result.add(0)
-        }
+            result.add(0) 
     }
+
     return result
 }
 
 fun displayGuess(guess: String, matches: List<Int>) {
-    require(guess.length == matches.size) { "Guess and matches must have the same length." }
-    val display = guess.mapIndexed { index, char ->
-        if (matches[index] == 1) {
-            char
+    print("Result: ")
+    for (i in 0 until guess.length) {
+        if (matches[i] == 1) {
+            print(guess[i] + " ")  
         } else {
-            '?'
+            print("? ")          
         }
-    }.joinToString(" ")
-    println(display)
+    }
+    println()
 }
+
 
 fun main() {
     println("=== Welcome to the Wordle Game ===")
 
     print("Enter the filename containing 5-letter words (e.g., words.txt): ")
-    val filename = readLine()?.trim() ?: return
-    val words = readWordList(filename)
+    val filenameLine = readLine()
+    var filename = ""
 
+    if (filenameLine != null) {
+        for (letter in filenameLine) {
+            if (letter != ' ' && letter != '\n' && letter != '\r' && letter != '\t') {
+                filename += letter
+            }
+        }
+    }
+
+    val words = readWordList(filename)
     if (words.isEmpty()) {
-        println("No valid 5-letter words found in the file.")
+        println("No valid 5-letter words found. Please check your file.")
         return
     }
 
     val target = pickRandomWord(words)
+    if (target == "") return
 
     for (i in 1..MAX_ATTEMPTS) {
         val guess = obtainGuess(i)
@@ -86,12 +153,10 @@ fun main() {
         displayGuess(guess, result)
 
         if (guess == target) {
-            println("You got it! The word was ${target.uppercase()}.")
+            println("Congratulations! You guessed it! The word was ${target.uppercase()} ")
             return
         }
     }
 
-    println(" You ran out of tries. The correct word was ${target.uppercase()}.")
+    println("You ran out of tries! The correct word was ${target.uppercase()}.")
 }
-
-
