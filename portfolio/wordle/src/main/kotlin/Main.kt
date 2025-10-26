@@ -153,10 +153,13 @@ fun main() {
         displayGuess(guess, result)
 
         if (guess == target) {
-            println("Congratulations! You guessed it! The word was ${target.uppercase()} ")
+            println("Congratulations! You guessed it!")
             return
         }
     }
 
-    println("You ran out of tries! The correct word was ${target.uppercase()}.")
+    println("Sorry! You ran out of tries! ")
 }
+        
+    
+
