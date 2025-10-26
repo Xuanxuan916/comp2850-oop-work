@@ -105,6 +105,7 @@ fun evaluateGuess(guess: String, target: String): List<Int> {
             result.add(1)  
         } else {
             result.add(0) 
+        }
     }
 
     return result
